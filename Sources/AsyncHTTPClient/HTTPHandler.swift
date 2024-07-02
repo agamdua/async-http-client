@@ -285,6 +285,18 @@ extension HTTPClient {
 
             return (head, metadata)
         }
+
+        /// Set basic auth for a request.
+        ///
+        /// - parameters:
+        ///     - username: the username to authenticate with
+        ///     - password: authentication password associated with the username
+        mutating public func setBasicAuth(username: String, password: String) {
+            let value = Data(String(format: "%@:%@", username, password).utf8)
+            let encoded = value.base64EncodedString()
+            self.headers.replaceOrAdd(name: "Authorization", value: "Basic \(encoded)")
+        }
+
     }
 
     /// Represents an HTTP response.
